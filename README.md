@@ -1,3 +1,3 @@
 # ProControl
 
-- Step1_FILEPREP.ipynb is a collection of bash scripts to unarchive the scan tar files, conver the DICOMs to NIFTIs, organize working directories and convert onset timing files for future analysis
+- Step1_FILEPREP.ipynb is a collection of bash scripts to (1) unarchive the scan tar files, (2) convert the DICOMs to NIFTIs, (3) organize working directories and (4) convert onset timing files for future analysis
