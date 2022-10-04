@@ -1,5 +1,2 @@
-# ProControl
-
-- "Step1_FILEPREP.ipynb" is a collection of bash scripts to prepare the fMRI data for preprocessing: (1) unarchive the scan tar files, (2) convert the DICOMs to NIFTIs, (3) organize working directories and (4) convert onset timing files for future analysis
-
-- This is an addition.
+# Comparing biomimetic and arbitrary motor control strategies when learning to operate a robotic hand
+https://osf.io/3m592/
