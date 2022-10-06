@@ -24,8 +24,8 @@ soa = 1.5 # time between the trial onsets
 random_jitter = [x*1 for x in [1.5,3.0,4.5]]
 random_jitter_probability = [.25,.50,.25]
 
-# Define number of conditions
-movesee =  [0,1,1,0,1,1,0,1,1,0,1,1,0,1,0,1,0,1,0,1] # move = 0, see = 1
+# Define number of conditions - specific to my design
+movesee =  [0,1,1,0,1,1,0,1,1,0,1,1,0,1,0,1,0,1,0,1] # move trial or see trial: move = 0, see = 1
 grips = [0,0,0,1,1,1,2,2,2,3,3,3,4,4,5,5,6,6,7,7] # 8 different gestures: 1=open, 2=close, 3=pinch, 4=1finger, 5=2fingers, 6=3fingers
 stimuli = [0,1,2,0,1,2,0,1,2,0,1,2,0,1,0,1,0,1,0,1] # 0=circle video, 1=hand video, 2=pros video
 ntrials= [20]
@@ -59,6 +59,7 @@ griptxt = ['OPEN','CLOSE','PINCH','TRIPOD','1 FINGER','2 FINGERS','3 FINGERS','4
 trialmat['grip_txt'] = np.select(grip_conditions,griptxt)
 
 # Create a column that includes the DAQ output numbers: 1,2,4,8,16,32,64,128,255
+# only if using the BIOPAC MP150 system while fMRI scanning
 daq = [(trialmat['move_see'] == 0) & (trialmat['grip_txt'] == 'OPEN'),(trialmat['move_see'] == 0) & (trialmat['grip_txt']== 'CLOSE'),(trialmat['move_see'] == 0) & (trialmat['grip_txt'] == 'PINCH'),(trialmat['move_see'] == 0) & (trialmat['grip_txt'] == 'TRIPOD'),(trialmat['move_see'] == 0) & (trialmat['grip_txt'] == '1 FINGER'),(trialmat['move_see'] == 0) & (trialmat['grip_txt'] == '2 FINGERS'),(trialmat['move_see'] == 0) & (trialmat['grip_txt']== '3 FINGERS'),(trialmat['move_see'] == 0) & (trialmat['grip_txt']== '4 FINGERS'),(trialmat['move_see'] == 1)]
 daqtxt = ['1','2','4','8','16','32','64','128','255']
 trialmat['daq'] = np.select(daq,daqtxt)
@@ -87,7 +88,7 @@ print('Number of total trials:',trialmat.shape[0])
 accept_min_repeatrate = [0,0]
 accept_max_repeatrate = [0.25,0.05]
 
-# # # ## I'M GOING TO MAKE 800 PRE-MADE TRIALMATS THAT I CAN USE, 200 IS ARBITRARY
+# # # ## I'M GOING TO MAKE 800 PRE-MADE TRIALMATS THAT I CAN USE
 idx = 0
 for tries in range(800):
     for rep in range(3):

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # Hunter R. Schone, 2021
-#tt
+
 # =============================================================================
 # IMPORTS
 # =============================================================================
@@ -19,6 +19,7 @@ from time import sleep
 from os import system
 from sys import stdout
 from uldaq import (get_daq_device_inventory, DaqDevice, InterfaceType, DigitalDirection, DigitalPortIoType)
+#comment out all uldaq if not connected to a BIOPAC MP150
 
 # =============================================================================
 # TASK PARAMETERS
@@ -30,13 +31,13 @@ trigger_key = 't'
 space_key = 'space'
 quit_button = 'q'
 # TTIMING DURATIONS
-tr = 1.5 # TR time
+tr = 1.5 # TR 
 pre_fixation_time = 8*tr 
 post_fixation_time = 6*tr 
-refreshrate = 1/60
+refreshrate = 1/60 #needed to define to fix small timing offset when presenting the frames
 
 # =============================================================================
-# EMG - TRIGGER PARAMETERS
+# EMG - TRIGGER PARAMETERS - ONLY IF USING BIOPAC MP150, OTHERWISE COMMENT OUT
 # =============================================================================
 
 #Parameters before loop
@@ -67,7 +68,8 @@ system('clear')
 max_port_value = int(pow(2.0, port_info.number_of_bits) - 1)
 
 # =============================================================================
-# SUBJECT INFO
+# SUBJECT INFO - EXPERIMENTER WILL BE PROMPTED TO MANUALLY ENTER THESE BEFORE TASK BEGINS
+# the only one that needs to be specific is script number - it's looking for a trialmatrix file with the number you input
 # =============================================================================
 isrealexperiment = 1
 if isrealexperiment==1:
@@ -105,17 +107,16 @@ if isrealexperiment==1:
         raise
 # Store info about the experiment session
 psychopyVersion = '2021.1.1'
-expName = 'fmri_v2.py'  # from the Builder filename that created this script
+expName = 'fmri_v2.py'
 expInfo = {'': ''}
 expInfo['date'] = data.getDateStr()  # add a simple timestamp
 expInfo['expName'] = expName
 expInfo['psychopyVersion'] = psychopyVersion
-# Data file name stem = absolute path + name; later add .psyexp, .csv, .log, etc
-filename = path + os.sep + 'data_rep3' + os.sep + str(a) + '_sess_' + str(b) + '_run_' + str(c) + '_script_' + str(d)
+# This is how the format the data will be saved, create a data directory to save into
+filename = path + os.sep + 'data' + os.sep + str(a) + '_sess_' + str(b) + '_run_' + str(c) + '_script_' + str(d)
 # I opted to use an experiment handler to help with creating the timing file
 thisExp = data.ExperimentHandler(name=expName, version='',
     extraInfo=expInfo, runtimeInfo=None,
-    originPath='/Users/hunteradmin/Desktop/projects/ProControl/imaging/script/fmri_v2.ipynb',
     saveWideText=True,dataFileName=filename)
 
 # =============================================================================
@@ -165,7 +166,8 @@ while 1:
 scanner_trig_text = visual.TextStim(win,text='Waiting for scanner...',pos=(0,0),height=75,wrapWidth=5000)
 scanner_trig_text.draw()
 scanner_trig_text = win.flip()
-dio_device.d_out(port_to_write, int(off_data))
+
+dio_device.d_out(port_to_write, int(off_data)) #comment out if not using BIOPAC
 
 while 1:
         pressed=event.getKeys(keyList=trigger_key, modifiers=False, timeStamped=False) 
@@ -215,9 +217,9 @@ for i in trials:
         #Output instruction start-time
         thisExp.addData('instruction.started', grip_text_started)
         
-        #Send trigger signal
-        on_data = str(trialmat['daq'][i])
-        dio_device.d_out(port_to_write, int(on_data))     
+        #Send trigger signal to BIOPAC AcqKnowledge - I made the triggers differ depending on the type of move trial
+        on_data = str(trialmat['daq'][i]) 
+        dio_device.d_out(port_to_write, int(on_data)) #comment out if not using BIOPAC
         
         #Present trial fixation
         trial_fixation.draw()
@@ -253,7 +255,9 @@ for i in trials:
                 win.flip()
             #Reset movie frames for future repeats
             movies1[trialmat['uniquetrial'].iloc[i]].seek(0)
-        dio_device.d_out(port_to_write, int(off_data))
+        
+        #Turn off trigger (i.e. move trial is over)
+        dio_device.d_out(port_to_write, int(off_data)) #comment out if not using BIOPAC
 
         # =============================================================================
         # JITTER
@@ -288,12 +292,12 @@ core.wait(secs=post_fixation_time)
 thisExp.saveAsWideText(filename+'.csv', delim='comma')
 
 # =============================================================================
-# CONCAT TRIALMAT AND TIMINGMAT TOGETHER
+# CONCAT TRIALMAT (INPUT) AND TIMINGMAT (BUILT DURING TASK) TOGETHER FOR A SINGLE OUTPUT
 # =============================================================================
 trialmat = pd.read_csv("./trialmat_rep3/final/trialmat_acceptable_option" + str(d) + ".csv")
-timingmat = pd.read_csv("./data_rep3" + os.sep + str(a) + "_sess_" + str(b) + "_run_" + str(c) + "_script_" + str(d) + ".csv")
+timingmat = pd.read_csv("./data" + os.sep + str(a) + "_sess_" + str(b) + "_run_" + str(c) + "_script_" + str(d) + ".csv")
 output_df = pd.concat([trialmat,timingmat], axis=1).reindex(trialmat.index)
-output_df.to_csv("./output_rep3" + os.sep + str(a) + "_sess_" + str(b) + "_run_" + str(c) + "_script_" + str(d) + ".csv")
+output_df.to_csv("./output" + os.sep + str(a) + "_sess_" + str(b) + "_run_" + str(c) + "_script_" + str(d) + ".csv")
 
 # =============================================================================
 # CLOSE EVERYTHING
