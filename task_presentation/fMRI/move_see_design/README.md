@@ -1,4 +1,4 @@
-# This directory has the fMRI stimuli, the fMRI task script and a script to construct the trialmatrix files used in the tassk
+# This directory has the fMRI stimuli, the fMRI task script and a script to construct the trialmatrix files used in the task
 1. move_see design
     - Construct_trialmatrix.py - creates multiple iterations of the trialmatrix file which will be used as the input to run a single run of the task.
     - trialmat_rep3 - includes some example trial-matrix files I constructred using the construct_trialmatrix.py
