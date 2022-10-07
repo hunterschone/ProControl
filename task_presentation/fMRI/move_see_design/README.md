@@ -6,3 +6,7 @@
     - uldaq directory - contains the packages I needed to send a trigger out via the python script. 
     - videos - this directory includes all of the biological and robotic hand videos I filmed. Additionally, the move cue is a expanding circle video I created using manim, see https://towardsdatascience.com/how-to-create-mathematical-animations-like-3blue1brown-using-python-f571fb9da3d1
 
+2. Simultaneous EMG-MRI Physical Setup (see photos_mri_setup)
+    - We recorded 8-EMG channels + 1 reference electrode (17 electrodes) in total during scanning. We opted to use all BIOPAC equipment, specifically using the BIOPAC MP150 system for recording. To get the Psychopy script to deliver triggers to the BIOPAC system, I used the uldaq package (described above). Connected to the presentation laptop was a USB cable running to a USB-1608FS box (https://www.mccdaq.com/usb-data-acquisition/USB-1608FS.aspx) which connected to the back of the BIOPAC MP150 system. 
+
+3. Recording video of the hand during MRI scanning
