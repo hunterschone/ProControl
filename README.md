@@ -4,4 +4,5 @@ The code involves a study exploring how different bionic hand control strategies
 
 Table of contents (directories):
 1. Behaviour (Schone et al., 2024, Nature Human Behaviour)
-2. Imaging (under preparation)
+   https://www.nature.com/articles/s41562-023-01811-6
+3. Imaging (under preparation)
